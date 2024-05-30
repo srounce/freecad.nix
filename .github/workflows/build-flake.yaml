@@ -1,0 +1,47 @@
+name: Build flake
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  nix-matrix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v24
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+        with:
+          diagnostic-endpoint: ""
+          use-flakehub: false
+      - id: set-matrix
+        name: Generate Nix Matrix
+        run: |
+          set -Eeu
+          matrix="$(nix eval --json '.#githubActions.matrix')"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  nix-build:
+    needs: nix-matrix
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      matrix: ${{fromJSON(needs.nix-matrix.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v24
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+        with:
+          diagnostic-endpoint: ""
+          use-flakehub: false
+      - run: nix build -L ".#${{ matrix.attr }}"
