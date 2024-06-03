@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 let
   versionInfo = builtins.fromJSON (builtins.readFile ./version.json);
 
@@ -16,7 +16,6 @@ pkgs.freecad.overrideAttrs (final: prev: {
   inherit src;
 
   patches = [
-    ./patches/remove-PYTHONPATH-putenv.patch
     ./patches/FreeCad-OndselSolver-pkgconfig.patch
   ];
 
