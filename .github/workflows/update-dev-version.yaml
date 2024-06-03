@@ -1,0 +1,40 @@
+name: Dev release update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  update-dev-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v24
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+        with:
+          diagnostic-endpoint: ""
+          use-flakehub: false
+      - name: Update to latest commit
+        run: scripts/env-run.sh scripts/update-dev-version.sh
+      - name: Get short revision
+        id: get_revision
+        run: echo "shortRev=$(scripts/env-run.sh scripts/get-revision.sh)" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: pkgs/freecad/version.json
+          title: Update pkgs/freecad to ${{ steps.get_revision.outputs.shortRev }}
+          body: Automated update to latest FreeCAD development revision
+          commit-message: >
+            chore: Update pkgs/freecad to ${{ steps.get_revision.outputs.shortRev }}
+          branch: auto-update-rev
+          labels: |
+            automated
+            update
+          reviewers: |
+            srounce
