@@ -16,6 +16,11 @@
     };
   };
 
+  nixConfig = {
+    extra-substituters = [ "https://freecad-nix.cachix.org" ];
+    extra-trusted-public-keys = [ "freecad-nix.cachix.org-1:4udrBfknw1PmAxiLtiyiij7in4jlU//l64G7zaAYYYE=" ];
+  };
+
   # Keep the magic invocations to minimum.
   outputs = inputs@{ self, nix-github-actions, nixpkgs, ... }: 
   let
