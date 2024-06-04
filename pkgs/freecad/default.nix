@@ -26,4 +26,9 @@ pkgs.freecad.overrideAttrs (final: prev: {
   nativeBuildInputs = prev.nativeBuildInputs ++ (with pkgs; [
     yaml-cpp
   ]);
+
+  buildInputs = prev.buildInputs ++ (with pkgs.python3Packages; [
+    pyside2
+    pyside2-tools
+  ]);
 })
