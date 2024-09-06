@@ -2,6 +2,7 @@
   pkgs,
   withQt6 ? false,
   withWayland ? false,
+  python ? pkgs.python311,
   ...
 }:
 let
@@ -13,7 +14,6 @@ let
     pkg-config
     wrapGAppsHook
 
-    python3
     fmt
     yaml-cpp
     xercesc
@@ -54,7 +54,7 @@ let
     ])
     ++ lib.optionals withQt6 [ qtVersion.qt5compat ];
 
-  pythonPackages = with python3.pkgs; [
+  pythonPackages = with python.pkgs; [
     boost
     shiboken2
     #shiboken6
@@ -126,7 +126,7 @@ stdenv.mkDerivation {
     swig
     doxygen
 
-    python3
+    python
   ] ++ qtPackages ++ pythonPackages;
 
   propagatedBuildInputs = pythonPackages;
