@@ -2,6 +2,6 @@
 
 set -euo pipefail
 
-rev="$(jq -r '.rev' pkgs/freecad/version.json)"
+rev="$(jq -r '.rev' packages/freecad/version.json)"
 
 echo "${rev:0:7}"
