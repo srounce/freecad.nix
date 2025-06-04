@@ -1,9 +1,9 @@
-name: Dev release update
+name: Weekly release update
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 0 * * 2'
 
 jobs:
   update-dev-release:
@@ -21,6 +21,8 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Update to latest commit
         run: scripts/env-run.sh scripts/update-dev-version.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get short revision
         id: get_revision
         run: echo "shortRev=$(scripts/env-run.sh scripts/get-revision.sh)" >> $GITHUB_OUTPUT
