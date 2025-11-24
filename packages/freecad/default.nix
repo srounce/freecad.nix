@@ -74,7 +74,6 @@ stdenv.mkDerivation {
 
   patches = [
     ./patches/0001-NIXOS-don-t-ignore-PYTHONPATH.patch
-    ./patches/0002-FreeCad-OndselSolver-pkgconfig.patch
   ];
 
   # echo $PYTHONPATH | sed 's/:/\n/g'
