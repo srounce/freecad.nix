@@ -8,7 +8,7 @@
 let
   formatter = inputs.treefmt-nix.lib.mkWrapper pkgs {
     _file = ./default.nix;
-    package = pkgs.treefmt2;
+    package = pkgs.treefmt;
 
     projectRootFile = ".git/config";
 
