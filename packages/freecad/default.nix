@@ -12,7 +12,7 @@ let
     fetchFromGitHub
     cmake
     pkg-config
-    wrapGAppsHook
+    wrapGAppsHook3
 
     fmt
     yaml-cpp
@@ -105,7 +105,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     cmake
     pkg-config
-    wrapGAppsHook
+    wrapGAppsHook3
     wrapQtAppsHook
   ];
 
