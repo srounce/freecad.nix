@@ -34,7 +34,7 @@ jobs:
           body: Automated update to latest FreeCAD 1.1 RC revision
           commit-message: >
             chore: Update packages/freecad_1-1 to ${{ steps.get_revision.outputs.shortRev }}
-          branch: auto-update-rev
+          branch: auto-update-1-1-rev
           labels: |
             automated
             update
