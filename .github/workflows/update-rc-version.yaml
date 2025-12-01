@@ -1,4 +1,4 @@
-name: Daily RC update
+name: Nightly RC update
 
 on:
   workflow_dispatch:
@@ -26,17 +26,8 @@ jobs:
       - name: Get short revision
         id: get_revision
         run: echo "shortRev=$(scripts/env-run.sh scripts/get-revision.sh)" >> $GITHUB_OUTPUT
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          add-paths: packages/freecad_1-1/version.json
-          title: Update packages/freecad_1-1 to ${{ steps.get_revision.outputs.shortRev }}
-          body: Automated update to latest FreeCAD 1.1 RC revision
-          commit-message: >
-            chore: Update packages/freecad_1-1 to ${{ steps.get_revision.outputs.shortRev }}
-          branch: auto-update-1-1-rev
-          labels: |
-            automated
-            update
-          reviewers: |
-            srounce
+      - name: Update nightly version
+        run: |
+          git add -A
+          git commit -m "chore: Update packages/freecad_1-1 to ${{ steps.get_revision.outputs.shortRev }}"
+          git push
