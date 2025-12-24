@@ -56,14 +56,13 @@ let
 
   pythonPackages = with python.pkgs; [
     boost
-    shiboken2
-    #shiboken6
+    lark
+    matplotlib
+    pivy
+    pybind11
     pyside2
     pyside2-tools
-    #pyside6
-    pybind11
-    pivy
-    matplotlib
+    shiboken2
   ];
 in
 stdenv.mkDerivation {
