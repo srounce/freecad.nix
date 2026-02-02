@@ -98,7 +98,6 @@ stdenv.mkDerivation {
     "-DINSTALL_TO_SITEPACKAGES=OFF"
     "-DFREECAD_USE_PYBIND11=ON"
     "-DBUILD_FLAT_MESH:BOOL=ON"
-    "-DBUILD_FLAT_MESH:BOOL=ON"
   ] ++ (lib.optionals (!withQt6) [ "-DBUILD_QT5=ON" ]);
 
   nativeBuildInputs = [
