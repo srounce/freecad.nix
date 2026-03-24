@@ -1,6 +1,5 @@
 {
   pkgs,
-  withQt6 ? false,
   withWayland ? false,
   python ? pkgs.python311,
   ...
@@ -22,17 +21,24 @@ let
     fetchSubmodules = true;
   };
 in
-pkgs.freecad.overrideAttrs {
-  inherit src;
+pkgs.freecad
+  .overrideAttrs {
+    inherit src;
 
-  version = "1.1.0-rc2";
+    version = "1.1.0-rc2";
 
-  patches = [
-    ./patches/0001-NIXOS-don-t-ignore-PYTHONPATH.patch
-  ];
+    patches = [
+      ./patches/0001-NIXOS-don-t-ignore-PYTHONPATH.patch
+    ];
 
-  postPatch = ''
-    substituteInPlace src/Mod/Fem/femmesh/gmshtools.py \
-      --replace-fail 'self.gmsh_bin = ""' 'self.gmsh_bin = "${lib.getExe gmsh}"'
-  '';
-}
+    postPatch = ''
+      substituteInPlace src/Mod/Fem/femmesh/gmshtools.py \
+        --replace-fail 'self.gmsh_bin = ""' 'self.gmsh_bin = "${lib.getExe gmsh}"'
+    '';
+  }
+  .override {
+    inherit
+      pkgs
+      withWayland
+      python;
+  }

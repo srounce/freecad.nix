@@ -1,6 +1,5 @@
 {
   pkgs,
-  withQt6 ? false,
   withWayland ? false,
   python ? pkgs.python311,
   ...
@@ -13,6 +12,7 @@ let
     cmake
     pkg-config
     wrapGAppsHook3
+    qt6Packages
 
     fmt
     yaml-cpp
@@ -41,18 +41,16 @@ let
     fetchSubmodules = true;
   };
 
-  qtVersion = if withQt6 then pkgs.qt6Packages else pkgs.qt5;
 
-  inherit (qtVersion) wrapQtAppsHook;
+  inherit (qt6Packages) wrapQtAppsHook;
 
-  qtPackages =
-    (with qtVersion; [
-      qtbase
-      qtsvg
-      qttools
-      qtwayland
-    ])
-    ++ lib.optionals withQt6 [ qtVersion.qt5compat ];
+  qtPackages = with qt6Packages; [
+    qtbase
+    qtsvg
+    qttools
+    qtwayland
+    qt6Packages.qt5compat
+  ];
 
   pythonPackages = with python.pkgs; [
     boost
@@ -98,8 +96,7 @@ stdenv.mkDerivation {
     "-DINSTALL_TO_SITEPACKAGES=OFF"
     "-DFREECAD_USE_PYBIND11=ON"
     "-DBUILD_FLAT_MESH:BOOL=ON"
-    "-DBUILD_FLAT_MESH:BOOL=ON"
-  ] ++ (lib.optionals (!withQt6) [ "-DBUILD_QT5=ON" ]);
+  ];
 
   nativeBuildInputs = [
     cmake
