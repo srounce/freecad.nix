@@ -21,7 +21,7 @@ let
     fetchSubmodules = true;
   };
 in
-pkgs.freecad
+(pkgs.freecad
   .overrideAttrs {
     inherit src;
 
@@ -35,7 +35,7 @@ pkgs.freecad
       substituteInPlace src/Mod/Fem/femmesh/gmshtools.py \
         --replace-fail 'self.gmsh_bin = ""' 'self.gmsh_bin = "${lib.getExe gmsh}"'
     '';
-  }
+  })
   .override {
     inherit
       pkgs
