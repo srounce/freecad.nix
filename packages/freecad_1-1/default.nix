@@ -25,7 +25,7 @@ in
   .overrideAttrs {
     inherit src;
 
-    version = "1.1.0-rc2";
+    version = "1.1.0-rc3";
 
     patches = [
       ./patches/0001-NIXOS-don-t-ignore-PYTHONPATH.patch
