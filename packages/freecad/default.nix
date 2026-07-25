@@ -1,7 +1,7 @@
 {
   pkgs,
   withWayland ? false,
-  python ? pkgs.python311,
+  python ? pkgs.python312,
   ...
 }:
 let
