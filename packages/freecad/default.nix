@@ -1,7 +1,7 @@
 {
   pkgs,
   withWayland ? false,
-  python ? pkgs.python311,
+  python ? pkgs.python312,
   ...
 }:
 let
@@ -29,6 +29,7 @@ let
     libredwg
     swig
     doxygen
+    gtest
     ;
 
   versionInfo = builtins.fromJSON (builtins.readFile ./version.json);
@@ -103,6 +104,7 @@ stdenv.mkDerivation {
     pkg-config
     wrapGAppsHook3
     wrapQtAppsHook
+    gtest
   ];
 
   buildInputs = [
