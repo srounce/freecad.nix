@@ -33,6 +33,6 @@ jobs:
           
           git add -A
           if [[ "$(git status -s | wc -l)" != "0" ]]; then
-            git commit -m "chore: Update packages/freecad_1-1 to ${{ steps.get_revision.outputs.shortRev }}"
+            git commit -m "chore: Update packages/freecad to ${{ steps.get_revision.outputs.shortRev }}"
             git push
           fi
